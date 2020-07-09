@@ -228,11 +228,26 @@ public class ChannelManager {
         if (StringUtils.isNullOrEmpty(dbkey)) {
             return null;
         }
+        dbkey = replaceMultipleDbUrl(dbkey, "dbkey_1 = {}", "dbkey_2 = {}");
         Set<String> set = new HashSet<String>();
         for (String s : dbkey.split(Constants.DBKEYS_SPLIT_CHAR)) {
             set.add(s);
         }
         return set;
+    }
+
+    /**
+     * Repair: There is a BUG in delimiting strings when working with multiple database connection addresses
+     * @param dbkey
+     * @param s2
+     * @param s3
+     * @return
+     */
+    private static String replaceMultipleDbUrl(String dbkey, String s2, String s3) {
+        LOGGER.info(s2, dbkey);
+        dbkey = dbkey.replaceAll("(\\d+),(\\d+)", "$1_$2");
+        LOGGER.info(s3, dbkey);
+        return dbkey;
     }
 
     /**
@@ -322,6 +337,8 @@ public class ChannelManager {
         String targetApplicationId = clientIdInfo[0];
         String targetIP = clientIdInfo[1];
         int targetPort = Integer.parseInt(clientIdInfo[2]);
+
+        resourceId = replaceMultipleDbUrl(resourceId, "resourceId_1 = {}", "resourceId_2 = {}");
 
         ConcurrentMap<String, ConcurrentMap<String, ConcurrentMap<Integer,
             RpcContext>>> applicationIdMap = RM_CHANNELS.get(resourceId);
