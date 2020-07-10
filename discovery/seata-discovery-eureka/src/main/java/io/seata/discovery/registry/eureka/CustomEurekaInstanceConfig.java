@@ -62,6 +62,19 @@ public class CustomEurekaInstanceConfig extends MyDataCenterInstanceConfig imple
         return applicationName;
     }
 
+    /**
+     * Override the parent class to get the host logic and register it in Eureka with the IP address as hostName
+     * @param refresh
+     * @return
+     */
+    @Override
+    public String getHostName(boolean refresh) {
+        if (StringUtils.isBlank(ipAddress)) {
+            return super.getHostName(refresh);
+        }
+        return ipAddress;
+    }
+
     public void setInstanceId(String instanceId) {
         this.instanceId = instanceId;
     }
