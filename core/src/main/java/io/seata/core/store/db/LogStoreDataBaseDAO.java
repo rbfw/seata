@@ -129,6 +129,7 @@ public class LogStoreDataBaseDAO implements LogStore, Initialize {
             ps = conn.prepareStatement(sql);
             ps.setString(1, xid);
             rs = ps.executeQuery();
+            LOGGER.info(">>>>> queryGlobalTransactionDO: xid -> " +  xid);
             if (rs.next()) {
                 return convertGlobalTransactionDO(rs);
             } else {
@@ -153,6 +154,7 @@ public class LogStoreDataBaseDAO implements LogStore, Initialize {
             ps = conn.prepareStatement(sql);
             ps.setLong(1, transactionId);
             rs = ps.executeQuery();
+            LOGGER.info(">>>>> queryGlobalTransactionDO: transactionId -> " +  transactionId);
             if (rs.next()) {
                 return convertGlobalTransactionDO(rs);
             } else {
@@ -223,6 +225,9 @@ public class LogStoreDataBaseDAO implements LogStore, Initialize {
             ps.setInt(7, globalTransactionDO.getTimeout());
             ps.setLong(8, globalTransactionDO.getBeginTime());
             ps.setString(9, globalTransactionDO.getApplicationData());
+            LOGGER.info(">>>>> insertGlobalTransactionDO: sql -> " +  sql);
+            LOGGER.info(">>>>> insertGlobalTransactionDO: xid -> " +  globalTransactionDO.getXid());
+            LOGGER.info(">>>>> insertGlobalTransactionDO: status -> " +  globalTransactionDO.getStatus());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new StoreException(e);
@@ -239,10 +244,14 @@ public class LogStoreDataBaseDAO implements LogStore, Initialize {
         try {
             conn = logStoreDataSource.getConnection();
             conn.setAutoCommit(true);
+            LOGGER.info(">>>>> updateGlobalTransactionDO: sql -> " +  sql);
             ps = conn.prepareStatement(sql);
             ps.setInt(1, globalTransactionDO.getStatus());
+            LOGGER.info(">>>>> updateGlobalTransactionDO: xid -> " +  globalTransactionDO.getXid() + "status = " + globalTransactionDO.getStatus());
             ps.setString(2, globalTransactionDO.getXid());
-            return ps.executeUpdate() > 0;
+            int result = ps.executeUpdate();
+            LOGGER.info("ps.executeUpdate() => " + result);
+            return result > 0;
         } catch (SQLException e) {
             throw new StoreException(e);
         } finally {
@@ -258,8 +267,10 @@ public class LogStoreDataBaseDAO implements LogStore, Initialize {
         try {
             conn = logStoreDataSource.getConnection();
             conn.setAutoCommit(true);
+            LOGGER.info(">>>>> deleteGlobalTransactionDO: sql -> " +  sql);
             ps = conn.prepareStatement(sql);
             ps.setString(1, globalTransactionDO.getXid());
+            LOGGER.info(">>>>> deleteGlobalTransactionDO: xid -> " +  globalTransactionDO.getXid());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new StoreException(e);
@@ -286,6 +297,7 @@ public class LogStoreDataBaseDAO implements LogStore, Initialize {
             while (rs.next()) {
                 rets.add(convertBranchTransactionDO(rs));
             }
+            LOGGER.info(">>>>> queryBranchTransactionDO: xid -> " +  xid);
             return rets;
         } catch (SQLException e) {
             throw new DataAccessException(e);

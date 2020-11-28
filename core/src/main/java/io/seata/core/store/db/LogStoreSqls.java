@@ -71,7 +71,7 @@ public class LogStoreSqls {
      */
     public static final String INSERT_GLOBAL_TRANSACTION_MYSQL = "insert into " + GLOBAL_TABLE_PLACEHOLD + "("
         + ALL_GLOBAL_COLUMNS + ")" +
-        "values(?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now()) ";
+        "values(?, ?, ?, ?, ?, ?, ?, ?, ?, now(3), now(3)) ";
 
     /**
      * The constant INSERT_GLOBAL_TRANSACTION_ORACLE.
@@ -84,7 +84,7 @@ public class LogStoreSqls {
      * The constant UPDATE_GLOBAL_TRANSACTION_STATUS_MYSQL.
      */
     public static final String UPDATE_GLOBAL_TRANSACTION_STATUS_MYSQL = "update " + GLOBAL_TABLE_PLACEHOLD
-        + " set " + ServerTableColumnsName.GLOBAL_TABLE_STATUS + " = ?, " + ServerTableColumnsName.GLOBAL_TABLE_GMT_MODIFIED + " = now() where " + ServerTableColumnsName.GLOBAL_TABLE_XID + " = ?";
+        + " set " + ServerTableColumnsName.GLOBAL_TABLE_STATUS + " = ?, " + ServerTableColumnsName.GLOBAL_TABLE_GMT_MODIFIED + " = now(3) where " + ServerTableColumnsName.GLOBAL_TABLE_XID + " = ?";
 
     /**
      * The constant UPDATE_GLOBAL_TRANSACTION_STATUS_ORACLE.
@@ -142,7 +142,7 @@ public class LogStoreSqls {
      */
     public static final String INSERT_BRANCH_TRANSACTION_MYSQL = "insert into " + BRANCH_TABLE_PLACEHOLD + "("
         + ALL_BRANCH_COLUMNS + ")" +
-        "values (?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())";
+        "values (?, ?, ?, ?, ?, ?, ?, ?, ?, now(3), now(3))";
 
     /**
      * The constant INSERT_BRANCH_TRANSACTION_ORACLE.
@@ -155,7 +155,7 @@ public class LogStoreSqls {
      * The constant UPDATE_BRANCH_TRANSACTION_STATUS_MYSQL.
      */
     public static final String UPDATE_BRANCH_TRANSACTION_STATUS_MYSQL = "update " + BRANCH_TABLE_PLACEHOLD
-        + " set " + ServerTableColumnsName.BRANCH_TABLE_STATUS + " = ?, " + ServerTableColumnsName.BRANCH_TABLE_GMT_MODIFIED + " = now() where "
+        + " set " + ServerTableColumnsName.BRANCH_TABLE_STATUS + " = ?, " + ServerTableColumnsName.BRANCH_TABLE_GMT_MODIFIED + " = now(3) where "
         + ServerTableColumnsName.BRANCH_TABLE_XID + " = ? and " + ServerTableColumnsName.BRANCH_TABLE_BRANCH_ID + " = ?";
 
     /**
